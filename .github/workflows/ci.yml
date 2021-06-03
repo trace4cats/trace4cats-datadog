@@ -51,6 +51,8 @@ jobs:
 
       - run: docker-compose up -d
 
+      - run: sbt --client '++${{ matrix.scala }}; scalafmtCheckAll; scalafmtSbtCheck'
+
       - name: Check that workflows are up to date
         run: sbt --client '++${{ matrix.scala }}; githubWorkflowCheck'
 
