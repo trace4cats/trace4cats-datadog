@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  dd-agent:
+    image: datadog/agent:7
+    ports:
+      - "8126:8126"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/proc/:/host/proc/:ro"
+      - "/sys/fs/cgroup/:/host/sys/fs/cgroup:ro"
+    environment:
+      DD_API_KEY: test
+
