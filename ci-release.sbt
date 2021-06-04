@@ -44,7 +44,10 @@ ThisBuild / developers := List(
 )
 ThisBuild / homepage := Some(url("https://github.com/trace4cats"))
 ThisBuild / scmInfo := Some(
-  ScmInfo(url("https://github.com/janstenpickle/trace4cats"), "scm:git:git@github.com:trace4cats/trace4cats.git")
+  ScmInfo(
+    url("https://github.com/trace4cats/trace4cats-datadog"),
+    "scm:git:git@github.com:trace4cats/trace4cats-datadog.git"
+  )
 )
 ThisBuild / organization := "io.janstenpickle"
 ThisBuild / organizationName := "trace4cats"
