@@ -25,7 +25,7 @@ ThisBuild / githubWorkflowPublishPreamble += WorkflowStep.Use(
 )
 
 ThisBuild / publishTo := sonatypePublishToBundle.value
-ThisBuild / versionScheme := Some("semver-spec")
+ThisBuild / versionScheme := Some("early-semver")
 
 ThisBuild / licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 ThisBuild / developers := List(
