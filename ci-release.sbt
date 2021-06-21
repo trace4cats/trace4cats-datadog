@@ -5,6 +5,7 @@ ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8", "adopt@1.11")
 
 ThisBuild / githubWorkflowBuildPreamble += WorkflowStep.Run(commands = List("docker-compose up -d"))
 ThisBuild / githubWorkflowBuildPreamble += WorkflowStep.Sbt(List("scalafmtCheckAll", "scalafmtSbtCheck"))
+ThisBuild / githubWorkflowBuildPostamble += WorkflowStep.Run(commands = List("docker-compose down"))
 
 ThisBuild / githubWorkflowPublishTargetBranches := Seq(RefPredicate.Equals(Ref.Branch("master")))
 ThisBuild / githubWorkflowPublish := Seq(

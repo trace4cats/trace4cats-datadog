@@ -59,6 +59,8 @@ jobs:
       - name: Build project
         run: sbt --client '++${{ matrix.scala }}; test'
 
+      - run: docker-compose down
+
       - name: Compress target directories
         run: tar cf targets.tar target modules/datadog-http-exporter/target project/target
 
