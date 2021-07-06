@@ -6,6 +6,7 @@ object Dependencies {
     val scala213 = "2.13.6"
 
     val trace4cats = "0.12.0-RC2"
+    val trace4catsExporterHttp = "0.12.0-RC2"
 
     val circe = "0.14.1"
     val http4s = "0.23.0-RC1"
@@ -15,10 +16,10 @@ object Dependencies {
   }
 
   lazy val trace4catsExporterCommon = "io.janstenpickle" %% "trace4cats-exporter-common" % Versions.trace4cats
-  lazy val trace4catsExporterHttp = "io.janstenpickle"   %% "trace4cats-exporter-http"   % Versions.trace4cats
   lazy val trace4catsKernel = "io.janstenpickle"         %% "trace4cats-kernel"          % Versions.trace4cats
   lazy val trace4catsModel = "io.janstenpickle"          %% "trace4cats-model"           % Versions.trace4cats
   lazy val trace4catsTestkit = "io.janstenpickle"        %% "trace4cats-testkit"         % Versions.trace4cats
+  lazy val trace4catsExporterHttp = "io.janstenpickle"   %% "trace4cats-exporter-http"   % Versions.trace4catsExporterHttp
 
   lazy val circeGeneric = "io.circe"        %% "circe-generic-extras" % Versions.circe
   lazy val circeParser = "io.circe"         %% "circe-parser"         % Versions.circe
