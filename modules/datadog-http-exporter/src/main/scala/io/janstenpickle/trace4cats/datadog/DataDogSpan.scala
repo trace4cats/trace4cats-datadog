@@ -7,16 +7,15 @@ import cats.Foldable
 import cats.syntax.foldable._
 import cats.syntax.show._
 import io.circe.Encoder
-import io.circe.generic.extras.Configuration
-import io.circe.generic.extras.semiauto._
+import io.circe.generic.semiauto._
 import io.janstenpickle.trace4cats.`export`.SemanticTags
 import io.janstenpickle.trace4cats.model.{AttributeValue, Batch}
 
 // implements https://docs.datadoghq.com/api/v1/tracing/
 case class DataDogSpan(
-  traceId: BigInteger,
-  spanId: BigInteger,
-  parentId: Option[BigInteger],
+  trace_id: BigInteger,
+  span_id: BigInteger,
+  parent_id: Option[BigInteger],
   name: String,
   service: String,
   resource: String,
@@ -71,7 +70,5 @@ object DataDogSpan {
         )
       })
 
-  implicit val circeConfig: Configuration = Configuration.default.withSnakeCaseMemberNames.withSnakeCaseConstructorNames
-
-  implicit val encoder: Encoder[DataDogSpan] = deriveConfiguredEncoder[DataDogSpan].mapJson(_.dropNullValues)
+  implicit val encoder: Encoder[DataDogSpan] = deriveEncoder[DataDogSpan].mapJson(_.dropNullValues)
 }
