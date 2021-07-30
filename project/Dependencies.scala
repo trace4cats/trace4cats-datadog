@@ -10,7 +10,7 @@ object Dependencies {
     val trace4catsExporterHttp = "0.12.0-RC2+4-69bfcea6"
 
     val circe = "0.14.1"
-    val http4s = "0.23.0-RC1"
+    val http4s = "0.23.0"
 
     val kindProjector = "0.13.0"
     val betterMonadicFor = "0.3.1"
