@@ -23,7 +23,6 @@ object Dependencies {
   lazy val trace4catsExporterHttp = "io.janstenpickle"   %% "trace4cats-exporter-http"   % Versions.trace4catsExporterHttp
 
   lazy val circeGeneric = "io.circe"        %% "circe-generic"       % Versions.circe
-  lazy val circeParser = "io.circe"         %% "circe-parser"        % Versions.circe
   lazy val http4sCirce = "org.http4s"       %% "http4s-circe"        % Versions.http4s
   lazy val http4sBlazeClient = "org.http4s" %% "http4s-blaze-client" % Versions.http4s
 

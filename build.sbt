@@ -42,7 +42,6 @@ lazy val `datadog-http-exporter` =
       name := "trace4cats-datadog-http-exporter",
       libraryDependencies ++= Seq(
         Dependencies.circeGeneric,
-        Dependencies.circeParser,
         Dependencies.http4sCirce,
         Dependencies.http4sBlazeClient,
         Dependencies.trace4catsModel,
