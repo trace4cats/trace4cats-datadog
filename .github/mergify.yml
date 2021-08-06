@@ -39,6 +39,7 @@ pull_request_rules:
       - or:
           - author=janstenpickle
           - author=catostrophe
+          - author=renovate[bot]
       - and:
           - label=skip-release
           - label=ready-to-merge
