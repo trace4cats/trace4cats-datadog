@@ -33,7 +33,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Java and Scala
-        uses: olafurpg/setup-scala@v12
+        uses: olafurpg/setup-scala@v13
         with:
           java-version: ${{ matrix.java }}
 
@@ -53,13 +53,13 @@ jobs:
         run: docker-compose up -d
 
       - name: Check formatting
-        run: sbt --client '++${{ matrix.scala }}; scalafmtCheckAll; scalafmtSbtCheck'
+        run: sbt ++${{ matrix.scala }} scalafmtCheckAll scalafmtSbtCheck
 
       - name: Check that workflows are up to date
-        run: sbt --client '++${{ matrix.scala }}; githubWorkflowCheck'
+        run: sbt ++${{ matrix.scala }} githubWorkflowCheck
 
       - name: Build project
-        run: sbt --client '++${{ matrix.scala }}; test'
+        run: sbt ++${{ matrix.scala }} test
 
       - name: Stop and remove Docker resources
         run: docker-compose down
@@ -90,7 +90,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Java and Scala
-        uses: olafurpg/setup-scala@v12
+        uses: olafurpg/setup-scala@v13
         with:
           java-version: ${{ matrix.java }}
 
@@ -147,4 +147,4 @@ jobs:
         env:
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-        run: sbt --client '++${{ matrix.scala }}; ciReleaseSonatype'
+        run: sbt ++${{ matrix.scala }} ciReleaseSonatype
