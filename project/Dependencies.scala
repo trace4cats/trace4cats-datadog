@@ -12,7 +12,7 @@ object Dependencies {
     val circe = "0.14.1"
     val http4s = "0.23.3"
 
-    val kindProjector = "0.13.1"
+    val kindProjector = "0.13.2"
     val betterMonadicFor = "0.3.1"
   }
 
