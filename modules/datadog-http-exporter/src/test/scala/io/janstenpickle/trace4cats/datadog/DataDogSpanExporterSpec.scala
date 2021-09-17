@@ -28,9 +28,9 @@ class DataDogSpanExporterSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyC
     val expectedSpanIds = batchSpans.map(span => DataDogSpan.spanId(span.context))
     val expectedParentIds = batchSpans.map(span => DataDogSpan.parentId(span.context))
     assert(
-      dataDogSpans.exists(span => expectedTraceIds.contains(span.trace_id)) &&
-        dataDogSpans.exists(span => expectedSpanIds.contains(span.span_id)) &&
-        dataDogSpans.exists(span => expectedParentIds.contains(span.parent_id))
+      dataDogSpans.forall(span => expectedTraceIds.contains(span.trace_id)) &&
+        dataDogSpans.forall(span => expectedSpanIds.contains(span.span_id)) &&
+        dataDogSpans.forall(span => expectedParentIds.contains(span.parent_id))
     )
   }
 
