@@ -24,29 +24,27 @@ case class DataDogSpan(
   error: Option[Int]
 )
 
-object DataDogSpan extends ExternalTraceContext[BigInt] {
+object DataDogSpan extends ExternalTraceContext[BigInt, BigInt, Option[BigInt]] {
+  // IDs use BigInts so that they can be unsigned
   override def traceId: SpanContext => BigInt = spanContext => BigInt(1, spanContext.traceId.value.drop(8))
   override def spanId: SpanContext => BigInt = spanContext => BigInt(1, spanContext.spanId.value)
+  override def parentId: SpanContext => Option[BigInt] = spanContext =>
+    spanContext.parent.map(parent => BigInt(1, parent.spanId.value))
   def fromBatch[F[_]: Foldable](batch: Batch[F]): List[List[DataDogSpan]] =
     batch.spans.toList
       .groupBy(_.context.traceId)
       .values
       .toList
       .map(_.map { span =>
-        // IDs use BigInts so that they can be unsigned
-        val trceId = traceId(span.context)
-        val spnId = spanId(span.context)
-        val parentId = span.context.parent.map(parent => BigInt(1, parent.spanId.value))
-
         val allAttributes = span.allAttributes ++ SemanticTags
           .kindTags(span.kind) ++ SemanticTags.statusTags("")(span.status)
 
         val startNanos = TimeUnit.MILLISECONDS.toNanos(span.start.toEpochMilli)
 
         DataDogSpan(
-          trceId,
-          spnId,
-          parentId,
+          traceId(span.context),
+          spanId(span.context),
+          parentId(span.context),
           span.name,
           span.serviceName,
           allAttributes.get("resource.name").fold(span.serviceName)(_.toString),
