@@ -1,21 +1,19 @@
 package io.janstenpickle.trace4cats.datadog
 
-import java.math.BigInteger
 import java.util.concurrent.TimeUnit
-
 import cats.Foldable
 import cats.syntax.foldable._
 import cats.syntax.show._
 import io.circe.Encoder
 import io.circe.generic.semiauto._
 import io.janstenpickle.trace4cats.`export`.SemanticTags
-import io.janstenpickle.trace4cats.model.{AttributeValue, Batch}
+import io.janstenpickle.trace4cats.model.{AttributeValue, Batch, ExternalTraceContext, SpanContext}
 
 // implements https://docs.datadoghq.com/api/v1/tracing/
 case class DataDogSpan(
-  trace_id: BigInteger,
-  span_id: BigInteger,
-  parent_id: Option[BigInteger],
+  trace_id: BigInt,
+  span_id: BigInt,
+  parent_id: Option[BigInt],
   name: String,
   service: String,
   resource: String,
@@ -26,19 +24,19 @@ case class DataDogSpan(
   error: Option[Int]
 )
 
-object DataDogSpan {
+object DataDogSpan extends ExternalTraceContext[BigInt] {
+  override def traceId: SpanContext => BigInt = spanContext => BigInt(1, spanContext.traceId.value.drop(8))
+  override def spanId: SpanContext => BigInt = spanContext => BigInt(1, spanContext.spanId.value)
   def fromBatch[F[_]: Foldable](batch: Batch[F]): List[List[DataDogSpan]] =
     batch.spans.toList
       .groupBy(_.context.traceId)
       .values
       .toList
       .map(_.map { span =>
-        // IDs use BigIntegers so that they can be unsigned
-        val traceId = new BigInteger(1, span.context.traceId.value.drop(8))
-        val spanId = new BigInteger(1, span.context.spanId.value)
-        val parentId = span.context.parent.map { parent =>
-          new BigInteger(1, parent.spanId.value)
-        }
+        // IDs use BigInts so that they can be unsigned
+        val trceId = traceId(span.context)
+        val spnId = spanId(span.context)
+        val parentId = span.context.parent.map(parent => BigInt(1, parent.spanId.value))
 
         val allAttributes = span.allAttributes ++ SemanticTags
           .kindTags(span.kind) ++ SemanticTags.statusTags("")(span.status)
@@ -46,8 +44,8 @@ object DataDogSpan {
         val startNanos = TimeUnit.MILLISECONDS.toNanos(span.start.toEpochMilli)
 
         DataDogSpan(
-          traceId,
-          spanId,
+          trceId,
+          spnId,
           parentId,
           span.name,
           span.serviceName,
