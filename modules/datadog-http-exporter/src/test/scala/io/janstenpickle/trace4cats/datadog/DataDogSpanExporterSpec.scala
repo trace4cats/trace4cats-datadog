@@ -24,20 +24,13 @@ class DataDogSpanExporterSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyC
   it should "construct ids with the DataDog ExternalTraceContext" in forAll { (batch: Batch[Chunk]) =>
     val batchSpans: List[CompletedSpan] = batch.spans.toList
     val dataDogSpans: List[DataDogSpan] = DataDogSpan.fromBatch(batch).flatten
+    val expectedTraceIds = batchSpans.map(span => DataDogSpan.traceId(span.context))
+    val expectedSpanIds = batchSpans.map(span => DataDogSpan.spanId(span.context))
+    val expectedParentIds = batchSpans.map(span => DataDogSpan.parentId(span.context))
     assert(
-      dataDogSpans.forall(ddSpan =>
-        batchSpans.exists(batchSpan => ddSpan.trace_id == DataDogSpan.traceId(batchSpan.context))
-      )
-    )
-    assert(
-      dataDogSpans.forall(ddSpan =>
-        batchSpans.exists(batchSpan => ddSpan.span_id == DataDogSpan.spanId(batchSpan.context))
-      )
-    )
-    assert(
-      dataDogSpans.forall(ddSpan =>
-        batchSpans.exists(batchSpan => ddSpan.parent_id == DataDogSpan.parentId(batchSpan.context))
-      )
+      dataDogSpans.exists(span => expectedTraceIds.contains(span.trace_id)) &&
+        dataDogSpans.exists(span => expectedSpanIds.contains(span.span_id)) &&
+        dataDogSpans.exists(span => expectedParentIds.contains(span.parent_id))
     )
   }
 
