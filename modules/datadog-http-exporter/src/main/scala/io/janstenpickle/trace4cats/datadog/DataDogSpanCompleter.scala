@@ -1,7 +1,6 @@
 package io.janstenpickle.trace4cats.datadog
 
 import cats.effect.kernel.{Async, Resource}
-import cats.syntax.applicative._
 import fs2.Chunk
 import org.typelevel.log4cats.Logger
 import org.typelevel.log4cats.slf4j.Slf4jLogger
@@ -21,8 +20,7 @@ object DataDogSpanCompleter {
     config: CompleterConfig = CompleterConfig(),
     ec: Option[ExecutionContext] = None
   ): Resource[F, SpanCompleter[F]] = for {
-    ec <- Resource.eval(ec.fold(Async[F].executionContext)(_.pure))
-    client <- BlazeClientBuilder[F](ec).resource
+    client <- ec.fold(BlazeClientBuilder[F])(BlazeClientBuilder[F].withExecutionContext).resource
     completer <- apply[F](client, process, host, port, config)
   } yield completer
 
