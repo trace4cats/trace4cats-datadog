@@ -36,11 +36,10 @@ lazy val `datadog-http-exporter` =
       libraryDependencies ++= Seq(
         Dependencies.circeGeneric,
         Dependencies.http4sCirce,
-        Dependencies.http4sBlazeClient,
         Dependencies.trace4catsModel,
         Dependencies.trace4catsKernel,
         Dependencies.trace4catsExporterCommon,
         Dependencies.trace4catsExporterHttp
       ),
-      libraryDependencies ++= Seq(Dependencies.trace4catsTestkit).map(_ % Test),
+      libraryDependencies ++= Seq(Dependencies.trace4catsTestkit, Dependencies.http4sBlazeClient).map(_ % Test),
     )

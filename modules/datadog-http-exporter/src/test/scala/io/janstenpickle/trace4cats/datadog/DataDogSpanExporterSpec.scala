@@ -1,15 +1,16 @@
 package io.janstenpickle.trace4cats.datadog
 
-import cats.effect.IO
+import cats.effect.{IO, Resource}
 import cats.effect.unsafe.implicits.global
 import fs2.Chunk
-import org.typelevel.log4cats.Logger
-import org.typelevel.log4cats.slf4j.Slf4jLogger
 import io.janstenpickle.trace4cats.model.Batch
 import io.janstenpickle.trace4cats.test.ArbitraryInstances
+import org.http4s.blaze.client.BlazeClientBuilder
 import org.scalacheck.Shrink
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
+import org.typelevel.log4cats.Logger
+import org.typelevel.log4cats.slf4j.Slf4jLogger
 
 class DataDogSpanExporterSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with ArbitraryInstances {
   implicit val logger: Logger[IO] = Slf4jLogger.getLogger[IO]
@@ -22,6 +23,11 @@ class DataDogSpanExporterSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyC
   behavior.of("DataDogSpanExporter")
 
   it should "send spans to datadog agent without error" in forAll { (batch: Batch[Chunk]) =>
-    assertResult(())(DataDogSpanExporter.blazeClient[IO, Chunk]().use(_.exportBatch(batch)).unsafeRunSync())
+    assertResult(()) {
+      BlazeClientBuilder[IO].resource
+        .flatMap(c => Resource.eval(DataDogSpanExporter[IO, Chunk](c, "localhost", 8126)))
+        .use(_.exportBatch(batch))
+        .unsafeRunSync()
+    }
   }
 }
