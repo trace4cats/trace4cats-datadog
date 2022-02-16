@@ -11,7 +11,7 @@ import io.circe.generic.semiauto._
 import io.janstenpickle.trace4cats.`export`.SemanticTags
 import io.janstenpickle.trace4cats.model.{AttributeValue, Batch}
 
-// implements https://docs.datadoghq.com/api/v0.3/tracing/
+// implements https://docs.datadoghq.com/tracing/guide/send_traces_to_agent_by_api/
 case class DataDogSpan(
   trace_id: BigInteger,
   span_id: BigInteger,
