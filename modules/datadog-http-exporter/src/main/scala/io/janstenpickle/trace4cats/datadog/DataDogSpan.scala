@@ -11,7 +11,7 @@ import io.circe.generic.semiauto._
 import io.janstenpickle.trace4cats.`export`.SemanticTags
 import io.janstenpickle.trace4cats.model.{AttributeValue, Batch}
 
-// implements https://docs.datadoghq.com/api/v1/tracing/
+// implements https://docs.datadoghq.com/api/v0.3/tracing/
 case class DataDogSpan(
   trace_id: BigInteger,
   span_id: BigInteger,
@@ -23,7 +23,8 @@ case class DataDogSpan(
   metrics: Map[String, Double],
   start: Long,
   duration: Long,
-  error: Option[Int]
+  error: Option[Int],
+  `type`: String
 )
 
 object DataDogSpan {
@@ -66,7 +67,8 @@ object DataDogSpan {
           allAttributes.get("error").map {
             case AttributeValue.BooleanValue(v) if v.value => 1
             case _ => 0
-          }
+          },
+          allAttributes.get("datadog.span_type").fold("custom")(_.toString),
         )
       })
 
