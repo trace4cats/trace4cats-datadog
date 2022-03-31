@@ -12,7 +12,7 @@
 Add it to your `build.sbt`:
 
 ```scala
-"io.janstenpickle" %% "trace4cats-datadog-http-exporter" % "0.13.0"
+"io.janstenpickle" %% "trace4cats-datadog-http-exporter" % "0.13.1"
 ```
 
 
