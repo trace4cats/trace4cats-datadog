@@ -1,16 +1,16 @@
-package io.janstenpickle.trace4cats.datadog
+package trace4cats.datadog
 
 import cats.Foldable
 import cats.effect.kernel.Temporal
 import cats.syntax.either._
 import cats.syntax.functor._
-import io.janstenpickle.trace4cats.`export`.HttpSpanExporter
-import io.janstenpickle.trace4cats.kernel.SpanExporter
-import io.janstenpickle.trace4cats.model.Batch
 import org.http4s.Method.PUT
 import org.http4s.Uri
 import org.http4s.circe.CirceEntityCodec._
 import org.http4s.client.Client
+import trace4cats.HttpSpanExporter
+import trace4cats.kernel.SpanExporter
+import trace4cats.model.Batch
 
 object DataDogSpanExporter {
 

@@ -1,16 +1,16 @@
-package io.janstenpickle.trace4cats.datadog
+package trace4cats.datadog
 
 import cats.effect.IO
 import cats.effect.unsafe.implicits.global
-import io.janstenpickle.trace4cats.`export`.CompleterConfig
-import io.janstenpickle.trace4cats.model.{CompletedSpan, TraceProcess}
-import io.janstenpickle.trace4cats.test.ArbitraryInstances
 import org.http4s.blaze.client.BlazeClientBuilder
 import org.scalacheck.Shrink
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import org.typelevel.log4cats.Logger
 import org.typelevel.log4cats.slf4j.Slf4jLogger
+import trace4cats.CompleterConfig
+import trace4cats.model.{CompletedSpan, TraceProcess}
+import trace4cats.test.ArbitraryInstances
 
 import scala.concurrent.duration._
 

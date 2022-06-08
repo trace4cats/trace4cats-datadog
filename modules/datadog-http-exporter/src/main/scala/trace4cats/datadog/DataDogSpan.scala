@@ -1,4 +1,4 @@
-package io.janstenpickle.trace4cats.datadog
+package trace4cats.datadog
 
 import java.math.BigInteger
 import java.util.concurrent.TimeUnit
@@ -8,8 +8,8 @@ import cats.syntax.foldable._
 import cats.syntax.show._
 import io.circe.Encoder
 import io.circe.generic.semiauto._
-import io.janstenpickle.trace4cats.`export`.SemanticTags
-import io.janstenpickle.trace4cats.model.{AttributeValue, Batch}
+import trace4cats.SemanticTags
+import trace4cats.model.{AttributeValue, Batch}
 
 // implements https://docs.datadoghq.com/tracing/guide/send_traces_to_agent_by_api/
 case class DataDogSpan(
