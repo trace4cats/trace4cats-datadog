@@ -6,11 +6,12 @@ object Dependencies {
     val scala213 = "2.13.8"
     val scala3 = "3.1.2"
 
-    val trace4cats = "0.13.1+67-a7d9b849"
-    val trace4catsExporterHttp = "0.13.1+22-e23abf6b"
+    val trace4cats = "0.13.1+114-c5a4b269"
+    val trace4catsExporterHttp = "0.13.1+26-3c5516ed"
 
     val circe = "0.14.2"
-    val http4s = "0.23.12"
+    val http4s = "0.23.14"
+    val http4sBlaze = "0.23.12"
 
     val kindProjector = "0.13.2"
     val betterMonadicFor = "0.3.1"
@@ -22,7 +23,7 @@ object Dependencies {
 
   lazy val circeGeneric = "io.circe"        %% "circe-generic"       % Versions.circe
   lazy val http4sCirce = "org.http4s"       %% "http4s-circe"        % Versions.http4s
-  lazy val http4sBlazeClient = "org.http4s" %% "http4s-blaze-client" % Versions.http4s
+  lazy val http4sBlazeClient = "org.http4s" %% "http4s-blaze-client" % Versions.http4sBlaze
 
   lazy val kindProjector = ("org.typelevel" % "kind-projector"     % Versions.kindProjector).cross(CrossVersion.full)
   lazy val betterMonadicFor = "com.olegpy" %% "better-monadic-for" % Versions.betterMonadicFor
