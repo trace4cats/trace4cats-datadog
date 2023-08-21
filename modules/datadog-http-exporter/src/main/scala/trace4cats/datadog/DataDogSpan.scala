@@ -44,7 +44,8 @@ object DataDogSpan {
         val allAttributes = span.allAttributes ++ SemanticTags
           .kindTags(span.kind) ++ SemanticTags.statusTags("")(span.status)
 
-        val startNanos = TimeUnit.MILLISECONDS.toNanos(span.start.toEpochMilli)
+        val startNanos = TimeUnit.SECONDS.toNanos(span.start.getEpochSecond) + span.start.getNano
+        val endNanos = TimeUnit.SECONDS.toNanos(span.end.getEpochSecond) + span.end.getNano
 
         DataDogSpan(
           traceId,
@@ -63,7 +64,7 @@ object DataDogSpan {
             case (k, AttributeValue.LongValue(value)) => k -> value.value.toDouble
           },
           startNanos,
-          TimeUnit.MILLISECONDS.toNanos(span.end.toEpochMilli) - startNanos,
+          endNanos - startNanos,
           allAttributes.get("error").map {
             case AttributeValue.BooleanValue(v) if v.value => 1
             case _ => 0
