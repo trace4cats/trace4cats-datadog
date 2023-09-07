@@ -9,7 +9,7 @@ object Dependencies {
     val trace4cats = "0.14.0"
     val trace4catsExporterHttp = "0.14.0"
 
-    val circe = "0.14.2"
+    val circe = "0.14.6"
     val http4s = "0.23.14"
     val http4sBlaze = "0.23.12"
 
